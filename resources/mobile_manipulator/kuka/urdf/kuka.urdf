@@ -268,15 +268,6 @@
       <mass value="1.474048"/>
       <inertia ixx="0.008179" ixy="0.0" ixz="0.0" iyy="0.006879" iyz="0.002704" izz="0.003709"/>
     </inertial>
-    <!-- <visual>
-                <origin rpy="0 0 0" xyz="-0.066 -0.033 0" />
-                <geometry>
-                    <mesh filename="package://ocs2_robotic_assets/resources/mobile_manipulator/kuka/meshes/visual/finalshiftedee.STL" scale="0.001 0.001 0.001" />
-                </geometry>
-                <material name="gray">
-                    <color rgba="0.5 0.5 0.5 1.0" />
-                </material>
-            </visual> -->
     <visual>
       <origin rpy="0 0 3.1415926" xyz="0 0 0"/>
       <geometry>
@@ -286,19 +277,21 @@
         <color rgba="0.5 0.5 0.5 1.0"/>
       </material>
     </visual>
+    <!-- round 219 mm to 220 mm, shift half of the cylinder to move the collision box-->
     <collision>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.10"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.11"/>
       <geometry>
-        <cylinder length="0.218" radius="0.04"/>
+        <cylinder length="0.22" radius="0.04"/>
       </geometry>
     </collision>
   </link>
-  <!-- change the values because ee is not cylinder of 20,2 cm -->
+  <!-- 219 mm, from link_ee frame to the end of end-effector + 9.5 mm, the chuck part that sticks out -->
   <joint name="joint_drillbit" type="fixed">
     <parent link="link_ee"/>
     <child link="link_drillbit"/>
-    <origin rpy="0 0 0" xyz="0 0 0.2"/>
+    <origin rpy="0 0 0" xyz="0 0 0.2285"/>
   </joint>
+  <!-- 2.8 mm drill is broken, we are using 3.2 mm drill now-->
   <link name="link_drillbit">
     <inertial>
       <origin rpy="0 0 0" xyz="0.0 -0.029824 0.076267"/>
@@ -306,31 +299,33 @@
       <inertia ixx="0.008179" ixy="0.0" ixz="0.0" iyy="0.006879" iyz="0.002704" izz="0.003709"/>
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0375"/>
+      <!-- shift half of the cylinder length-->
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0165"/>
       <geometry>
-        <cylinder length="0.0326" radius="0.0028"/>
+        <cylinder length="0.031" radius="0.0032"/>
       </geometry>
       <material name="gray">
         <color rgba="0.5 0.5 0.5 1.0"/>
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0375"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0165"/>
       <geometry>
-        <cylinder length="0.0326" radius="0.0028"/>
+        <cylinder length="0.031" radius="0.0032"/>
       </geometry>
     </collision>
   </link>
+  <!-- 31 mm -->
   <joint name="joint_tool" type="fixed">
     <parent link="link_drillbit"/>
     <child link="link_tool"/>
-    <origin rpy="0 0 0" xyz="0 0 0.0326"/>
+    <origin rpy="0 0 0" xyz="0 0 0.031"/>
   </joint>
   <link name="link_tool">
     <!-- tip stub -->
   </link>
   <!-- ros_control-plugin -->
-  <!-- <gazebo>
+  <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <parameters>/home/liver/paradocs_ws/install/lbr_ros2_control/share/lbr_ros2_control/config/lbr_controllers.yaml</parameters>
       <robotNamespace>/lbr</robotNamespace>
@@ -445,6 +440,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -462,6 +462,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -479,6 +484,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -496,6 +506,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -513,6 +528,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -530,6 +550,11 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
@@ -547,9 +572,14 @@
         <param name="min">-200</param>
         <param name="max"> 200</param>
       </command_interface>
+      <!-- Add command interface for velocity -->
+      <!-- <command_interface name="velocity">
+                        <param name="min">-${max_velocity}</param>
+                        <param name="max">${max_velocity}</param>
+                    </command_interface> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
-  </ros2_control> -->
+  </ros2_control>
 </robot>
